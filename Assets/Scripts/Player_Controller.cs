@@ -12,6 +12,7 @@ public class Player_Controller : MonoBehaviour
     private bool overdoor;
     private string doorlevel;
     private bool sprinting;
+    private bool frontback; // Walking up or down
     private GameObject keyobj;
     private int keysneeded;
     private int keys;
@@ -25,8 +26,8 @@ public class Player_Controller : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        WalkSpeed = 3f;
-        Sprintspeed = 4.5f;
+        WalkSpeed = 4f;
+        Sprintspeed = 5.5f;
 
         var objects = FindObjectsOfType<GameObject>();
         for (int i = 0; i < objects.Length; i++)
@@ -79,6 +80,19 @@ public class Player_Controller : MonoBehaviour
             moveVelocity = moveInput.normalized * (WalkSpeed + (Sprintspeed - WalkSpeed)); // sprint speed
         }
 
+        if(moveInput.y > 0)
+        {
+            frontback = false;
+        }
+        else
+        {
+            if(moveInput.y < 0)
+            {
+                frontback = true;
+            }
+        }
+
+        animator.SetBool("Direction", frontback);
         animator.SetFloat("Speed", ((Mathf.Abs(moveInput.x) + Mathf.Abs(moveInput.y))/2));
         directioncheck(moveInput);
 
@@ -93,12 +107,26 @@ public class Player_Controller : MonoBehaviour
     {
         if (input.x > 0) // Moving right
         {
-            Direction = false;
+            if (frontback == false)
+            {
+                Direction = true;
+            }
+            else
+            {
+                Direction = false;
+            }
         }
 
         if (input.x < 0) // Moving left
         {
-            Direction = true;
+            if (frontback == false)
+            {
+                Direction = false;
+            }
+            else
+            {
+                Direction = true;
+            }
         }
 
         sp.flipX = Direction; // Sets sprite direction
@@ -116,7 +144,7 @@ public class Player_Controller : MonoBehaviour
                 overdoor = true;
                 doorlevel = otherprefab[1];
                 break;
-            case "key":
+            case "key": // Key pickup
                 keyobj = GameObject.Find(othername);
                 keys++;
                 Destroy(keyobj);
