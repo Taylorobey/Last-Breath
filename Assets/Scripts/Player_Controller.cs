@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public class Player_Controller : MonoBehaviour
     private bool frontback; // Walking up or down
     private GameObject keyobj;
     private int keysneeded;
-    private int keys;
+    public int keys;
     private Animator animator;
+    Scene m_Scene;
 
     private Rigidbody2D rb;
     private Vector2 moveVelocity;
@@ -25,9 +27,11 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        m_Scene = SceneManager.GetActiveScene();
+
         animator = GetComponent<Animator>();
-        WalkSpeed = 4f;
-        Sprintspeed = 5.5f;
+        WalkSpeed = 5f;
+        Sprintspeed = 6.75f;
 
         var objects = FindObjectsOfType<GameObject>();
         for (int i = 0; i < objects.Length; i++)
@@ -37,8 +41,6 @@ public class Player_Controller : MonoBehaviour
                 keysneeded++;
             }
         }
-
-        keys = 0;
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
     }
@@ -145,6 +147,7 @@ public class Player_Controller : MonoBehaviour
                 doorlevel = otherprefab[1];
                 break;
             case "key": // Key pickup
+                PersistentManagerScript.Instance.collectedkeys.Add(m_Scene.name + othername);
                 keyobj = GameObject.Find(othername);
                 keys++;
                 Destroy(keyobj);
