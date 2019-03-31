@@ -36,6 +36,11 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     ///     Dispatched when tanks are empty. 
     /// </summary>
     public static Action OnEmptyTanks = () => { };
+
+    /// <summary>
+    /// Dispatched when player takes damage.
+    /// </summary>
+    public static Action<int> OnTakeDamage = (amount) => { };
     
     #endregion
     
@@ -156,9 +161,10 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     }
 
     [Button]
-    private void RemoveTime()
+    public void RemoveTime(int time = 10)
     {
-        CurrentTime -= 10;
+        CurrentTime -= time;
+        OnTakeDamage?.Invoke(time);
     }
     
     #endregion

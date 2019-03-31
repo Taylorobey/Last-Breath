@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class InteractableEntityBase : MonoBehaviour
 {    
@@ -16,7 +16,8 @@ public abstract class InteractableEntityBase : MonoBehaviour
     //base entity components
     protected Collider2D Collider { get; private set; }
     protected Rigidbody2D Rigidbody { get; private set; }
-
+    protected SpriteRenderer SpriteRenderer { get; private set; }
+    protected Animator Animator { get; private set; }
     
     //------------------------------------------------------------------------------------------------------------------
     
@@ -31,6 +32,8 @@ public abstract class InteractableEntityBase : MonoBehaviour
         PlayerCollider = Player.GetComponent<Collider2D>();
         Collider = GetComponent<Collider2D>();
         Rigidbody = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
     }
 
     /// <summary>
