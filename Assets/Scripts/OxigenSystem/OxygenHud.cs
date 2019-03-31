@@ -36,6 +36,8 @@ public class OxygenHud : MonoBehaviour
         OxygenSystem.OnEmptyTanks += OnEmptyTanks;
         OxygenSystem.OnConsumeOxygenTank += WriteTanksQuantity;
         OxygenSystem.OnAddTank += WriteTanksQuantity;
+        OxygenSystem.OnTakeDamage += TakeDamage;
+
     }
     
     private void OnDestroy()
@@ -43,6 +45,9 @@ public class OxygenHud : MonoBehaviour
         //unsubscribe
         OxygenSystem.OnConsumeOxygen -= OnConsumeOxygen;
         OxygenSystem.OnEmptyTanks -= OnEmptyTanks;
+        OxygenSystem.OnConsumeOxygenTank -= WriteTanksQuantity;
+        OxygenSystem.OnAddTank -= WriteTanksQuantity;
+        OxygenSystem.OnTakeDamage -= TakeDamage;
     }
 
     #endregion
@@ -66,6 +71,10 @@ public class OxygenHud : MonoBehaviour
     {
         textTanks.text = Tanks + quantity;
     }
-    
+
+    private void TakeDamage(int amount)
+    {
+        MyShake.Shake();
+    }
     
 }
