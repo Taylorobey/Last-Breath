@@ -145,8 +145,11 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     [Button]
     public void AddTank()
     {
-        OxygenTanks++;
-        OnAddTank?.Invoke(OxygenTanks);
+        if (OxygenTanks < maxOxygenTanks - 1)
+        {
+            OxygenTanks++;
+            OnAddTank?.Invoke(OxygenTanks);
+        }
     }
 
     [Button]
