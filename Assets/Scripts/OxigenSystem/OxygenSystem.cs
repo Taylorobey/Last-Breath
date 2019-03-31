@@ -5,6 +5,7 @@ using UnityEngine;
 using Patterns;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 public class OxygenSystem : SingletonMB<OxygenSystem>
 {
@@ -61,7 +62,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     private KeyCode keyInputConsumeTank = KeyCode.Space;
 
     private int OxygenTanks { get; set; }
-    private float CurrentTime { get; set; }
+    private float CurrentTime { get; set; } 
 
     #endregion
     
@@ -127,8 +128,6 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
         CurrentTime = 0;
         OnDie?.Invoke();
         OnConsumeOxygen?.Invoke(0);
-        var currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
     }
 
     [Button("Consume Tank")]
