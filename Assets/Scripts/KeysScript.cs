@@ -6,18 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class KeysScript : MonoBehaviour
 {
+    public enum KeyColor
+    {
+        Red = 0, Blue = 1, Green = 2, Yellow = 3
+    }
+
+    public KeyColor color;
 
     Scene m_Scene;
     string recieve;
     GameObject player;
-    Player_Controller pc;
-    public int color;
+    Player_Controller pc;  
     private Animator animator;
 
     void Start()
     {
         animator = GetComponent<Animator>(); ;
-        animator.SetInteger("color", color);
+        animator.SetInteger("color", (int)color);
         player = GameObject.Find("Player");
         pc = player.GetComponent<Player_Controller>();
         m_Scene = SceneManager.GetActiveScene();
