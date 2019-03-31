@@ -125,6 +125,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     {
         if (Input.GetKeyDown(keyInputConsumeTank))
             TryConsumeOxygenTank();
+        if(Input.GetKeyDown("joystick button 1") == true)
+        {TryConsumeOxygenTank();}
     }
 
     [Button("Kill Player")]

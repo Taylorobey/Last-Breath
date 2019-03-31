@@ -34,7 +34,7 @@ public class Player_Controller : MonoBehaviour
         WalkSpeed = 5f;
         Sprintspeed = 6.75f;
 
-        var objects = FindObjectsOfType<GameObject>();
+        var objects = FindObjectsOfType<GameObject>(); // Get number of keys needed to complete room
         for (int i = 0; i < objects.Length; i++)
         {
             if((objects[i].name.Split('_')[0]) == "key")
