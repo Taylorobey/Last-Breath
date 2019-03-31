@@ -42,6 +42,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
  
     #region Fields and Properties
     
+    public static bool IsInitialized { get; private set; }
+    
     [Header("Configurations")]
     [SerializeField] [Range(60, 300)] [Tooltip("Maximum Time")] 
     private int MaxTime = 240;
@@ -69,15 +71,13 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
     private void Start()
     {
-        if (PersistentManagerScript.Instance.OxygenTanks == 0)
+        if (!IsInitialized)
         {
             //assign the starting amount of tanks for the first time
             OxygenTanks = startOxygenTanks;
-
             //start the time with the maximum
             CurrentTime = MaxTime;
-            PersistentManagerScript.Instance.OxygenTanks = OxygenTanks;
-            PersistentManagerScript.Instance.CurrentTime = CurrentTime;
+            IsInitialized = true;
         }
         else
         {
@@ -85,6 +85,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
             OxygenTanks = PersistentManagerScript.Instance.OxygenTanks;
             CurrentTime = PersistentManagerScript.Instance.CurrentTime;
         }
+        
+        OnAddTank?.Invoke(OxygenTanks);
     }
 
     private void Update()
@@ -143,13 +145,15 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     }
 
     [Button]
-    public void AddTank()
+    public void AddTank(OxygenTankType type)
     {
-        if (OxygenTanks < maxOxygenTanks - 1)
-        {
-            OxygenTanks++;
-            OnAddTank?.Invoke(OxygenTanks);
-        }
+        OxygenTanks += (int) type;
+        
+        //not over loot
+        if (OxygenTanks > maxOxygenTanks)
+            OxygenTanks = maxOxygenTanks;
+        
+        OnAddTank?.Invoke(OxygenTanks);
     }
 
     [Button]

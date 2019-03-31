@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 7247861368772544795}
   - component: {fileID: 7247861368772544794}
   - component: {fileID: 7247861368772544789}
+  - component: {fileID: 155541695}
   m_Layer: 5
   m_Name: CanvasOxygen
   m_TagString: Untagged
@@ -400,7 +401,7 @@ Canvas:
   m_GameObject: {fileID: 7247861368772544788}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -410,7 +411,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &7247861368772544794
 MonoBehaviour:
@@ -451,6 +452,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &155541695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7247861368772544788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5890163703334c4089982d46e4bdadc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7247861368861665026
 GameObject:
   m_ObjectHideFlags: 0

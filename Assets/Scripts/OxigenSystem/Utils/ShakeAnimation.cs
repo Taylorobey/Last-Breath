@@ -39,7 +39,7 @@ namespace Tools
             if (IsShaking)
                 return;
 
-            originalPosition = cachedTransform.position;
+            originalPosition = cachedTransform.localPosition;
             IsShaking = true;
         }
 
@@ -58,7 +58,7 @@ namespace Tools
         public void StopShaking()
         {
             IsShaking = false;
-            cachedTransform.position = originalPosition;
+            cachedTransform.localPosition = originalPosition;
             ResetCounters();
         }
 
