@@ -12,6 +12,7 @@ public class Player_Controller : MonoBehaviour
     private string[] otherprefab; // Current object overlapping trigger
     private bool overdoor;
     private string doorlevel;
+    private int doorsp;
     private bool sprinting;
     private bool frontback; // Walking up or down
     private GameObject keyobj;
@@ -43,6 +44,21 @@ public class Player_Controller : MonoBehaviour
         }
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
+
+        if(PersistentManagerScript.Instance.SpawnPoint != 0)
+        {
+            GameObject[] spawnpoints;
+            spawnpoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+
+            for (int i = 0; i < spawnpoints.Length; i++)
+            {
+                if(int.Parse(spawnpoints[i].name.Split('_')[1]) == PersistentManagerScript.Instance.SpawnPoint)
+                {
+                    transform.position = spawnpoints[i].transform.position;
+                }
+            }
+        }
+
     }
 
     void Update()
@@ -138,12 +154,13 @@ public class Player_Controller : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) // Trigger overlap
     {
         othername = other.name;
-        otherprefab = othername.Split('_');
+        otherprefab = (othername.Split(':')[0]).Split('_');
 
         switch (otherprefab[0])
         {
             case "door":
                 overdoor = true;
+                doorsp = int.Parse(othername.Split(':')[1]);
                 doorlevel = otherprefab[1];
                 break;
             case "key": // Key pickup
@@ -172,6 +189,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (overdoor == true && keys >= keysneeded)
         {
+            PersistentManagerScript.Instance.SpawnPoint = doorsp;
             Application.LoadLevel(doorlevel);
         }
     }
