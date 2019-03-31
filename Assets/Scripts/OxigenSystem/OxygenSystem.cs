@@ -10,12 +10,6 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 {
     #region Events
 
-    void Start()
-    {
-        OxygenTanks = PersistentManagerScript.Instance.OxygenTanks;
-        CurrentTime = PersistentManagerScript.Instance.CurrentTime;
-    }
-
     /// <summary>
     /// Dispatched when player consumes an Oxygen Tank.
     /// </summary>
@@ -73,18 +67,24 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     
     #region Unitycallbacks 
 
-    protected override void OnAwake()
+    private void Start()
     {
-       if (PersistentManagerScript.Instance.OxygenTanks == 0)
-       {
-            //assign the starting amount of tanks
+        if (PersistentManagerScript.Instance.OxygenTanks == 0)
+        {
+            //assign the starting amount of tanks for the first time
             OxygenTanks = startOxygenTanks;
 
             //start the time with the maximum
             CurrentTime = MaxTime;
             PersistentManagerScript.Instance.OxygenTanks = OxygenTanks;
             PersistentManagerScript.Instance.CurrentTime = CurrentTime;
-       }
+        }
+        else
+        {
+            //load persisted values between levels
+            OxygenTanks = PersistentManagerScript.Instance.OxygenTanks;
+            CurrentTime = PersistentManagerScript.Instance.CurrentTime;
+        }
     }
 
     private void Update()
