@@ -5,34 +5,51 @@ using UnityEngine.SceneManagement;
 
 public class Player_Controller : MonoBehaviour
 {
+
+    // ----------------------------------------------
+
+    #region Fields and Properties
+    // --------- Movement -----------------
     float WalkSpeed; // Player walk speed
     float Sprintspeed;
     private bool Direction;
     float deadzone = 0.25f; // Controller dead zone
-    private string[] otherprefab; // Current object overlapping trigger
-    private bool overdoor;
-    private string doorlevel;
-    private int doorsp;
     private bool sprinting;
+    // ------------------------------------
+
+    private string[] otherprefab; // Current object overlapping trigger
+
+    private bool overdoor; // ------------
+    private string doorlevel; // Door
+    private int doorsp; // ---------------
+
     private bool frontback; // Walking up or down
-    private GameObject keyobj;
-    private int keysneeded;
-    public int keys;
+    private int fouraxisdir;
+    private GameObject keyobj; // --------
+    private int keysneeded; // Keys
+    public int keys; // ------------------
+
     private Animator animator;
     Scene m_Scene;
+    public GameObject force = null;
+    public GameObject air = null;
 
     private Rigidbody2D rb;
     private Vector2 moveVelocity;
     private SpriteRenderer sp;
     string othername; // Name of object overlapping trigger
+    #endregion
+
+    // ----------------------------------------------
 
     void Start()
     {
         m_Scene = SceneManager.GetActiveScene();
-
         animator = GetComponent<Animator>();
         WalkSpeed = 5f;
         Sprintspeed = 6.75f;
+
+        fouraxisdir = 1;
 
         var objects = FindObjectsOfType<GameObject>(); // Get number of keys needed to complete room
         for (int i = 0; i < objects.Length; i++)
@@ -63,8 +80,13 @@ public class Player_Controller : MonoBehaviour
 
     void Update()
     {
+
+        // ----------------------------------------------
+
+        #region Input
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        // Interact ---
         if (Input.GetKeyDown("joystick button 2"))
         {
             Interact();
@@ -74,7 +96,20 @@ public class Player_Controller : MonoBehaviour
         {
             Interact();
         }
+        // Interact ---
 
+        // Fire ---
+        if (Input.GetKeyDown("f"))
+        {
+            FireGun();
+        }
+
+        if (Input.GetKeyDown("joystick button 0")){
+            FireGun();
+        }
+        // Fire ---
+
+        // Sprint ---
         if (Input.GetAxisRaw("Sprint") > 0 || Input.GetAxisRaw("Sprint_K") > 0)
         {
             sprinting = true;
@@ -83,6 +118,7 @@ public class Player_Controller : MonoBehaviour
         {
             sprinting = false;
         }
+        // Sprint ---
 
         if (moveInput.magnitude < deadzone) // Deadzone
         {
@@ -95,7 +131,7 @@ public class Player_Controller : MonoBehaviour
         }
         else
         {
-            moveVelocity = moveInput.normalized * (WalkSpeed + (Sprintspeed - WalkSpeed)); // sprint speed
+            moveVelocity = moveInput.normalized * (WalkSpeed + (Sprintspeed - WalkSpeed)); // Sprint speed
         }
 
         if(moveInput.y > 0)
@@ -109,11 +145,23 @@ public class Player_Controller : MonoBehaviour
                 frontback = true;
             }
         }
+        #endregion
+
+        // ----------------------------------------------
+
+        if (moveInput.x > 0) // Looking right
+        {
+            fouraxisdir = 1;
+        }
+        if (moveInput.x < 0) // Looking left
+        {
+            fouraxisdir = 2;
+        }
 
         animator.SetBool("Direction", frontback);
         animator.SetFloat("Speed", ((Mathf.Abs(moveInput.x) + Mathf.Abs(moveInput.y))/2));
+        animator.SetBool("gun", PersistentManagerScript.Instance.gun);
         directioncheck(moveInput);
-
     }
 
     void FixedUpdate()
@@ -169,6 +217,11 @@ public class Player_Controller : MonoBehaviour
                 keys++;
                 Destroy(keyobj);
                 break;
+            case "cannon":
+                GameObject cannon = GameObject.Find(othername);
+                Destroy(cannon);
+                PersistentManagerScript.Instance.gun = true;
+                break;
         }
     }
 
@@ -182,6 +235,25 @@ public class Player_Controller : MonoBehaviour
             case "door":
                 overdoor = false;
                 break;
+        }
+    }
+
+    void FireGun()
+    {
+        if (PersistentManagerScript.Instance.gun == true)
+        {
+            if (fouraxisdir == 1) // Looking up
+            {
+                Instantiate(force, transform.position + (transform.right * 2.5f), Quaternion.identity);
+                Instantiate(air, transform.position + (transform.right * 2.5f), Quaternion.identity);
+                PersistentManagerScript.Instance.direction = fouraxisdir;
+            }
+            if (fouraxisdir == 2) // Looking up
+            {
+                PersistentManagerScript.Instance.direction = fouraxisdir;
+                Instantiate(air, transform.position + (transform.right * -2.5f), Quaternion.identity);
+                Instantiate(force, transform.position + (transform.right * -2.5f), Quaternion.identity);
+            }
         }
     }
 
