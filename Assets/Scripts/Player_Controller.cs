@@ -184,7 +184,7 @@ public class Player_Controller : MonoBehaviour
             else
             {
                 Direction = true;
-                savedir = true;
+                savedir = false;
             }
         }
         else
@@ -199,7 +199,7 @@ public class Player_Controller : MonoBehaviour
                 else
                 {
                     Direction = false;
-                    savedir = false;
+                    savedir = true;
                 }
             }
         }
