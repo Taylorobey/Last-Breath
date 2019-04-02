@@ -15,6 +15,7 @@ public class Player_Controller : MonoBehaviour
     private bool Direction;
     float deadzone = 0.25f; // Controller dead zone
     private bool sprinting;
+    Vector2 moveInput = new Vector2();
     // ------------------------------------
 
     private string[] otherprefab; // Current object overlapping trigger
@@ -23,6 +24,7 @@ public class Player_Controller : MonoBehaviour
     private string doorlevel; // Door
     private int doorsp; // ---------------
 
+    private bool savedir;
     private bool frontback; // Walking up or down
     private int fouraxisdir;
     private GameObject keyobj; // --------
@@ -44,6 +46,7 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        savedir = false;
         m_Scene = SceneManager.GetActiveScene();
         animator = GetComponent<Animator>();
         WalkSpeed = 5f;
@@ -84,7 +87,7 @@ public class Player_Controller : MonoBehaviour
         // ----------------------------------------------
 
         #region Input
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        moveInput.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         // Interact ---
         if (Input.GetKeyDown("joystick button 2"))
@@ -171,31 +174,47 @@ public class Player_Controller : MonoBehaviour
 
     void directioncheck(Vector2 input) // Checks what direction the player is moving and flips sprite accordingly
     {
-        if (input.x > 0) // Moving right
+        if(moveInput.x > 0)
         {
-            if (frontback == false)
-            {
-                Direction = true;
-            }
-            else
+            if (frontback == true)
             {
                 Direction = false;
-            }
-        }
-
-        if (input.x < 0) // Moving left
-        {
-            if (frontback == false)
-            {
-                Direction = false;
+                savedir = false;
             }
             else
             {
                 Direction = true;
+                savedir = true;
             }
         }
-
-        sp.flipX = Direction; // Sets sprite direction
+        else
+        {
+            if (moveInput.x < 0)
+            {
+                if (frontback == true)
+                {
+                    Direction = true;
+                    savedir = true;
+                }
+                else
+                {
+                    Direction = false;
+                    savedir = false;
+                }
+            }
+        }
+        if (moveInput.x == 0 && Mathf.Abs(moveInput.y) > 0)
+        {
+            if (frontback == true)
+            {
+                Direction = savedir;
+            }
+            else
+            {
+                Direction = !savedir;
+            }
+        }
+        sp.flipX = Direction;
 
     }
 

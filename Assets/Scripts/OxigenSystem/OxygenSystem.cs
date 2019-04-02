@@ -123,10 +123,17 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
     private void CheckInput()
     {
+        // Consume tank
         if (Input.GetKeyDown(keyInputConsumeTank))
             TryConsumeOxygenTank();
         if(Input.GetKeyDown("joystick button 1") == true)
         {TryConsumeOxygenTank();}
+
+        // Shoot air cannon
+        if (Input.GetKeyDown("joystick button 0") == true && PersistentManagerScript.Instance.gun == true)
+        { CurrentTime -= 5; }
+        if (Input.GetKeyDown("f") && PersistentManagerScript.Instance.gun == true)
+        { CurrentTime -= 5; }
     }
 
     [Button("Kill Player")]
