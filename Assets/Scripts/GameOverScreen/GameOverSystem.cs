@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class GameOverSystem : SingletonMB<GameOverSystem>
+public class GameOverSystem : MonoBehaviour
 {
     //------------------------------------------------------------------------------------------------------------------
     #region Unitycallbacks
 
-    protected override void OnAwake()
+    private void Awake()
     {
         //button play again on click event
         buttonPlayAgain.onClick.AddListener(OnPressPlayAgain);
@@ -26,11 +26,10 @@ public class GameOverSystem : SingletonMB<GameOverSystem>
         HideGameOverScreen();
     }
 
-    protected override void OnDestroy()
+    private void OnDestroy()
     {
         //unsubscribe death trigger
         OxygenSystem.OnDie -= ShowGameOverScreen;
-        base.OnDestroy();
     }
 
     #endregion
