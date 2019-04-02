@@ -68,6 +68,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
     private int OxygenTanks { get; set; }
     private float CurrentTime { get; set; } 
+    
+    private bool IsDead { get; set; }
 
     #endregion
     
@@ -78,13 +80,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     private void Start()
     {
         if (!IsInitialized)
-        {
-            //assign the starting amount of tanks for the first time
-            OxygenTanks = startOxygenTanks;
-            //start the time with the maximum
-            CurrentTime = MaxTime;
-            IsInitialized = true;
-        }
+           Restart();
         else
         {
             //load persisted values between levels
@@ -136,12 +132,15 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
         { CurrentTime -= 5; }
     }
 
-    [Button("Kill Player")]
     private void Die()
     {
-        CurrentTime = 0;
-        OnDie?.Invoke();
+        if (IsDead)
+            return;
+        CurrentTime = -1;
+        IsDead = true;
         OnConsumeOxygen?.Invoke(0);
+        OnDie?.Invoke();
+        Restart();
     }
 
     [Button("Consume Tank")]
@@ -169,11 +168,36 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
         OnAddTank?.Invoke(OxygenTanks);
     }
 
+    [Button("Kill Player")]
+    private void Kill()
+    {
+        CurrentTime = 0.5f;
+    }
+
     [Button]
+    private void RemoveTime()
+    {
+        RemoveTime(20);
+    }
+    
+    
     public void RemoveTime(int time = 10)
     {
         CurrentTime -= time;
         OnTakeDamage?.Invoke(time);
+    }
+
+    /// <summary>
+    ///     Assign the fields the starting values.
+    /// </summary>
+    private void Restart()
+    {
+        //assign the starting amount of tanks for the first time
+        OxygenTanks = startOxygenTanks;
+        //start the time with the maximum
+        CurrentTime = MaxTime;
+        IsInitialized = true;
+        IsDead = false;
     }
     
     #endregion
