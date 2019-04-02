@@ -40,16 +40,16 @@ public class Force : MonoBehaviour
             {
 
                 case 0:
-                    otherrb.AddForce(transform.up * 3750);
+                    otherrb.AddForce(transform.up * 7500);
                     break;
                 case 1:
-                    otherrb.AddForce(transform.right * 3750);
+                    otherrb.AddForce(transform.right * 7500);
                     break;
                 case 2:
-                    otherrb.AddForce(transform.right * -3750);
+                    otherrb.AddForce(transform.right * -7500);
                     break;
                 case 3:
-                    otherrb.AddForce(transform.right * 5000);
+                    otherrb.AddForce(transform.right * 7500);
                     break;
 
             }
