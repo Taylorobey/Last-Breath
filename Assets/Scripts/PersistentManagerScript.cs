@@ -13,14 +13,10 @@ public class PersistentManagerScript : MonoBehaviour
     public int SpawnPoint = 0;
     public bool gun = false;
     public int direction = 0;
-    public Object FirstScene;
 
     private void Awake()
     {
         CreatePersistentSingleton();
-
-        //subscribe player death event
-        OxygenSystem.OnDie += RestartTheGame;
     }
     
     private void CreatePersistentSingleton()
@@ -39,7 +35,7 @@ public class PersistentManagerScript : MonoBehaviour
     /// <summary>
     ///     It happens when the player dies.
     /// </summary>
-    private void RestartTheGame()
+    public void RestartValues()
     {
         //we reset all persisted values
         OxygenTanks = 0;
@@ -47,15 +43,5 @@ public class PersistentManagerScript : MonoBehaviour
         SpawnPoint = 0;
         gun = false;
         direction = 0;
-
-        //switch game to first scene
-        var firstSceneName = FirstScene.name;
-        SceneManager.LoadScene(firstSceneName);
-    }
-    
-    private void OnDestroy()
-    {
-        //unsubscribe death event
-        OxygenSystem.OnDie -= RestartTheGame;
     }
 }
