@@ -7,11 +7,13 @@ public class phys_button : MonoBehaviour
     private Animator animator;
     public GameObject gates;
     int objson;
+    bool notenabled;
 
     void Start()
     {
         objson = 0;
         animator = GetComponent<Animator>();
+        notenabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -37,11 +39,19 @@ public class phys_button : MonoBehaviour
     void Obsjsoncheck()
     {
         if(objson == 0) {
-            foreach (Transform child in gates.transform)
+            if (notenabled == false)
             {
-                child.gameObject.active = true;
+                foreach (Transform child in gates.transform)
+                {
+
+                    child.gameObject.active = true;
+                    animator.SetBool("on", false);
+                }
             }
-            animator.SetBool("on", false);
+            else
+            {
+                notenabled = false;
+            }
         }
         else
         {
@@ -49,10 +59,18 @@ public class phys_button : MonoBehaviour
             {
                 if (child != transform)
                 {
-                    child.gameObject.active = false;
+                    if (child.gameObject.active == true)
+                    {
+                        child.gameObject.active = false;
+                        animator.SetBool("on", true);
+                        notenabled = false;
+                    }
+                    else
+                    {
+                        notenabled = true;
+                    }
                 }    
             }
-            animator.SetBool("on", true);
         }
     }
 }
