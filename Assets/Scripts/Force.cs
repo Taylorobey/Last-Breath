@@ -31,7 +31,7 @@ public class Force : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         string othername = other.name.Split('_')[0];
-        if (othername == "physitem" || othername == "followenemy")
+        if (othername == "physitem" || othername == "followenemy" || othername == "Sniffer")
         {
             Rigidbody2D otherrb;
             otherrb = other.GetComponent<Rigidbody2D>();
