@@ -21,7 +21,7 @@ public class phys_button : MonoBehaviour
         string othername = other.name.Split('_')[0];
         if (other.name == "Player" || othername == "physitem" || othername == "followenemy")
         {
-            objson += 1;
+            objson = 1;
             Obsjsoncheck();
         }
     }
@@ -31,7 +31,7 @@ public class phys_button : MonoBehaviour
         string othername = other.name.Split('_')[0];
         if (other.name == "Player" || othername == "physitem" || othername == "followenemy")
         {
-            objson -= 1;
+            objson = 0;
             Obsjsoncheck();
         }
     }
