@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestRoom.unity
+    path: Assets/Scenes/Test/TestRoom.unity
     guid: 8b4f82a631dccde47bb304cffe689a35
   - enabled: 1
-    path: Assets/Scenes/TestRoom2.unity
+    path: Assets/Scenes/Test/TestRoom2.unity
     guid: 75f8e83a4e2e52b4ea8cd1c80183ea5b
   - enabled: 1
-    path: Assets/Scenes/PuzzleExample.unity
+    path: Assets/Scenes/Test/PuzzleExample.unity
     guid: c6a1b6dbffd765343a24d351af019429
+  - enabled: 1
+    path: Assets/Scenes/Test/PuzzleExample2.unity
+    guid: 7ef6b011b997aa4448d39cf14a2fe705
   m_configObjects: {}

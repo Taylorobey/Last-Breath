@@ -46,6 +46,9 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        //subscribe death trigger
+        OxygenSystem.OnDie += Die;
+        
         savedir = false;
         m_Scene = SceneManager.GetActiveScene();
         animator = GetComponent<Animator>();
@@ -184,7 +187,7 @@ public class Player_Controller : MonoBehaviour
             else
             {
                 Direction = true;
-                savedir = true;
+                savedir = false;
             }
         }
         else
@@ -199,7 +202,7 @@ public class Player_Controller : MonoBehaviour
                 else
                 {
                     Direction = false;
-                    savedir = false;
+                    savedir = true;
                 }
             }
         }
@@ -283,5 +286,16 @@ public class Player_Controller : MonoBehaviour
             PersistentManagerScript.Instance.SpawnPoint = doorsp;
             Application.LoadLevel(doorlevel);
         }
+    }
+    
+    private void Die()
+    {
+        WalkSpeed = 0;
+    }
+
+    private void OnDestroy()
+    {
+        //unsubscribe death trigger
+        OxygenSystem.OnDie -= Die;
     }
 }

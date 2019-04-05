@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PersistentManagerScript : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class PersistentManagerScript : MonoBehaviour
 
     private void Awake()
     {
+        CreatePersistentSingleton();
+    }
+    
+    private void CreatePersistentSingleton()
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -26,4 +32,16 @@ public class PersistentManagerScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     It happens when the player dies.
+    /// </summary>
+    public void RestartValues()
+    {
+        //we reset all persisted values
+        OxygenTanks = 0;
+        CurrentTime = 0;
+        SpawnPoint = 0;
+        gun = false;
+        direction = 0;
+    }
 }

@@ -30,10 +30,10 @@ public abstract class InteractableEntityBase : MonoBehaviour
         //caching in player and collider components
         Player = FindObjectOfType<Player_Controller>();
         PlayerCollider = Player.GetComponent<Collider2D>();
-        Collider = GetComponent<Collider2D>();
-        Rigidbody = GetComponent<Rigidbody2D>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-        Animator = GetComponent<Animator>();
+        Collider = GetComponentInChildren<Collider2D>();
+        Rigidbody = GetComponentInChildren<Rigidbody2D>();
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Animator = GetComponentInChildren<Animator>();
     }
 
     /// <summary>
