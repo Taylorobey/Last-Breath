@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class InteractableEntityBase : MonoBehaviour
 {    

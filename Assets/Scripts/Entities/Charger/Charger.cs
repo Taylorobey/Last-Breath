@@ -1,39 +1,71 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.Serialization;
 
 public class Charger : InteractableEntityBase
 {
+    private enum MovementIdleDirection
+    {
+        Horizontal = 0, Vertical = 1
+    }
+    
+    private enum MovementDirection
+    {
+        Flipped, NotFlipped
+    }
+    
     //------------------------------------------------------------------------------------------------------------------
     
     #region Fields and Properties
 
-    private readonly int run = UnityEngine.Animator.StringToHash("Run");
-    private readonly int idle = UnityEngine.Animator.StringToHash("Idle");
+    #region Charge Configs
+    [Header("Charge Configs")][SerializeField] [Range(10, 50)] [Tooltip("Damage in seconds dealt to the player")]
+    private int chargerDamage = 40;
     
-    private const float Threshold = 0.1f;
+    [SerializeField] [Range(0, 20)] private float chargeSpeed = 1;
+    
+    #endregion
+    
+    #region Idle Configs
+    
+    private readonly int run = Animator.StringToHash("Run");
+    private readonly int idle = Animator.StringToHash("Idle");
+    private const float Threshold = 0.3f;
+    
+    [Header("Idle Configs")]
+    [Tooltip("Points where the charger will patrol ")] 
+    public Transform[] Points;
+    
+    [FormerlySerializedAs("maxRestTime")] [SerializeField] [Range(0.5f, 3f)] [Tooltip("Time to rest before a new move")]
+    private float idleRestTime = 1;
+    
+    [SerializeField] [Range(0, 10)] [Tooltip("Speed of the entity")] 
+    private float idleSpeed = 0;
 
-    [SerializeField] [UnityEngine.Range(10, 50)] [Tooltip("Damage in seconds dealt to the player")]
-    private int chargerDamage = 20;
-
-    [SerializeField] [UnityEngine.Range(0.5f, 3f)] [Tooltip("Time to rest before a new move")]
-    private float maxRestTime = 1;
-    
-    [SerializeField] [Tooltip("Points where the crawler will walk towards to")] 
-    private Transform[] points;
-    
-    [SerializeField] [Tooltip("Speed of the entity")] 
-    private float speed = 0;
-    
     [SerializeField]  [Range(0, 1)]
     private float jumpHeight = 0;
+
+    [SerializeField] [Tooltip("Field of view of the unit")]
+    private FieldOfView fieldOfView;
     
+    #endregion
+    
+    #region Properties
+    
+    private Vector3 TargetPoint { get; set; }
     private int TargetIndex { get; set; }
     private float RestTime { get; set; }
-    
     private bool CanDoDamage { get; set; }
     private bool HasArrived { get; set; }
+    private bool Charging { get; set; }
+    private float CachedScale { get; set; }
+    private MovementDirection Direction => GetDirection();
+    private MovementIdleDirection IdleDirection { get; set; }
+    
+    #endregion
     
     #endregion
     
@@ -43,15 +75,28 @@ public class Charger : InteractableEntityBase
     
     private void Start()
     {
-        transform.position = points[TargetIndex].position;
+        transform.position = Points[TargetIndex].position;
         UpdateTarget();
         HasArrived = true;
         CanDoDamage = true;
+        CachedScale = transform.localScale.x;
+        fieldOfView.OnPlayerFound += OnPlayerFound;
+
+        IdleDirection = GetIdleDirection();
     }
+
+    private void OnDestroy()
+    {
+        fieldOfView.OnPlayerFound -= OnPlayerFound;
+    }
+
 
     private void Update()
     {
-        Move();
+        if (Charging)
+            Charge();
+        else
+            Idle();
     }
 
     protected override void OnTriggerEnter2D(Collider2D other)
@@ -78,39 +123,97 @@ public class Charger : InteractableEntityBase
 
     //------------------------------------------------------------------------------------------------------------------
     
-    #region Methods
+    #region Flip and Direction
     
-    private void FlipLeft()
+    private void Flip()
     {
-        SpriteRenderer.flipX = false;
+        var scale = transform.localScale;
+        
+        if(Direction == MovementDirection.Flipped)
+            scale.x = -CachedScale;
+        else 
+            scale.x = CachedScale;
+        
+        transform.localScale = scale;
     }
 
-    private void FlipRight()
+    private MovementDirection GetDirection()
     {
-        SpriteRenderer.flipX = true;
+        return IdleDirection == MovementIdleDirection.Horizontal 
+            ? GetHorizontal() : GetVertical();
+    }
+
+    private MovementDirection GetVertical()
+    {
+        return transform.position.y < TargetPoint.y 
+            ? MovementDirection.Flipped : MovementDirection.NotFlipped;
+    }
+
+    private MovementDirection GetHorizontal()
+    {
+        return transform.position.x < TargetPoint.x 
+            ? MovementDirection.NotFlipped : MovementDirection.Flipped;
+    }
+
+    private MovementIdleDirection GetIdleDirection()
+    {
+        var delta = Points[1].position - Points[0].position;
+        var deltaX = Mathf.Abs(delta.x);
+        var deltaY = Mathf.Abs(delta.y);
+        
+        return deltaX >= deltaY ? MovementIdleDirection.Horizontal : MovementIdleDirection.Vertical;
+    }
+
+    //called by animator
+    public void JumpUp()
+    {
+        var currentPos = transform.position;
+        if (IdleDirection == MovementIdleDirection.Horizontal)
+            currentPos.y += jumpHeight;
+        else
+            currentPos.x += jumpHeight;
+        transform.position = currentPos;
+    }
+
+    //called by animator
+    public void JumpDown()
+    {
+        var currentPos = transform.position;
+        if (IdleDirection == MovementIdleDirection.Horizontal)
+            currentPos.y -= jumpHeight;
+        else
+            currentPos.x -= jumpHeight;
+        transform.position = currentPos;
     }
     
+    #endregion
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    #region Idle Behavior
+
     private void UpdateTarget()
     {
         TargetIndex++;
-        if (TargetIndex > points.Length - 1)
+        if (TargetIndex > Points.Length - 1)
             TargetIndex = 0;
+
+        TargetPoint = Points[TargetIndex].position;
     }
 
     private float GetDistanceToCurrentTarget()
     {
-        return Vector2.Distance(transform.position, points[TargetIndex].position);
+        return Vector2.Distance(transform.position, TargetPoint);
     }
 
     
-    private void Move()
+    private void Idle()
     {
         if (GetDistanceToCurrentTarget() > Threshold)
         {
-            var amount = speed * Time.deltaTime;
-            var targetPos = points[TargetIndex].position;
-            var currentPos = transform.position;
-            transform.position = Vector3.MoveTowards(currentPos, targetPos, amount);
+            GoTowardsTarget(idleSpeed);
+            
+            //------------
             
             if (!HasArrived) 
                 return;
@@ -124,16 +227,12 @@ public class Charger : InteractableEntityBase
     private void ToArrive()
     {
         RestTime += Time.deltaTime;
-        Rigidbody.MovePosition(points[TargetIndex].position);
-        
-        if (RestTime > maxRestTime)
+        Rigidbody.MovePosition(Points[TargetIndex].position);
+        if (RestTime > idleRestTime)
         {
             RestTime = 0;
             UpdateTarget();
-            if (SpriteRenderer.flipX)
-                FlipLeft();
-            else
-                FlipRight();
+            Flip();
         }
 
         //------------
@@ -143,18 +242,67 @@ public class Charger : InteractableEntityBase
         HasArrived = true;
         Animator.Play(idle);
     }
+    
+    #endregion
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    #region Charge Behavior
 
-    public void MoveUp()
+    private void OnPlayerFound(Transform obj)
     {
-        transform.position += new Vector3(0, jumpHeight, 0);
+        if (Charging)
+            return;
+
+        TargetPoint = IdleDirection == MovementIdleDirection.Horizontal
+            ? new Vector3(obj.position.x, transform.position.y, obj.position.z)
+            : new Vector3(transform.position.x, obj.position.y, obj.position.z);
+        
+        Charging = true;
+        HasArrived = false;
+        Animator.Play(run);
     }
 
-    public void MoveDown()
+    
+    private void Charge()
     {
-        transform.position += new Vector3(0, -jumpHeight, 0);
+        var distance = GetDistanceToCurrentTarget();
+        if (distance > Threshold)
+            GoTowardsTarget(chargeSpeed);
+        else
+            ToArriveChargePoint();
     }
-    
-    
+
+    private void GoTowardsTarget(float speed)
+    {
+        var amount = speed * Time.deltaTime;
+        var targetPos = TargetPoint;
+        var currentPos = transform.position;
+        transform.position = Vector3.MoveTowards(currentPos, targetPos, amount);
+    }
+
+    private void ToArriveChargePoint()
+    {
+        RestTime += Time.deltaTime;
+        transform.position = TargetPoint;
+        if (RestTime > idleRestTime)
+        {
+            Charging = false;
+            //restore previous target
+            TargetPoint = Points[TargetIndex].position;
+            RestTime = 0;
+            Flip();
+        }
+        
+        //------------
+        
+        if (HasArrived) 
+            return;
+        
+        HasArrived = true;
+        Animator.Play(idle);
+    }
+
     #endregion
     
     //------------------------------------------------------------------------------------------------------------------
