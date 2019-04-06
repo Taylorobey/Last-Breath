@@ -16,7 +16,7 @@ public class FollowPlayerBehavior : InteractableEntityBase
     {
         PInLOS = false;
         sp = GetComponent<SpriteRenderer>();
-        
+        player = GameObject.Find("Player");
         Physics2D.IgnoreCollision(Collider, PlayerCollider);
     }
 
