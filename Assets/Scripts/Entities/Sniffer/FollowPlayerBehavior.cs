@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class followenemy : MonoBehaviour
+public class FollowPlayerBehavior : InteractableEntityBase
 {
     #region Variables
     public Transform Player;
@@ -16,6 +16,8 @@ public class followenemy : MonoBehaviour
     {
         PInLOS = false;
         sp = GetComponent<SpriteRenderer>();
+        
+        Physics2D.IgnoreCollision(Collider, PlayerCollider);
     }
 
     #region Methods
@@ -40,4 +42,9 @@ public class followenemy : MonoBehaviour
         }
     }
     #endregion
+
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        //do nothing
+    }
 }
