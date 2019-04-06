@@ -33,12 +33,10 @@ public class followenemy : MonoBehaviour
         if(gameObject.transform.position.x < Player.position.x)
         {
             transform.Translate(transform.right * (WalkSpeed / 100));
-            sp.flipX = true;
         }
         else
         {
             transform.Translate(transform.right * -(WalkSpeed / 100));
-            sp.flipX = false;
         }
     }
     #endregion
