@@ -390,11 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb493d595e70264eb2366cc382b147b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDontDestroyOnLoad: 0
-  isSilent: 1
   content: {fileID: 1505539942608144690}
   buttonPlayAgain: {fileID: 8080010023959439506}
-  firstScene: {fileID: 102900000, guid: 8b4f82a631dccde47bb304cffe689a35, type: 3}
+  firstScene: {fileID: 102900000, guid: f41f494bf1217f34697872e7c30bad16, type: 3}
 --- !u!1 &7715850528646826101
 GameObject:
   m_ObjectHideFlags: 0
