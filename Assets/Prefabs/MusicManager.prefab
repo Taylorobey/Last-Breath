@@ -47,7 +47,7 @@ MonoBehaviour:
   isDontDestroyOnLoad: 1
   isSilent: 1
   levelMusic: {fileID: 8300000, guid: af272e5732854df4899b6498a688d623, type: 3}
-  menuMusic: {fileID: 8300000, guid: dfcf17a08f0549a44a0591eb55f1fc6d, type: 3}
+  menuMusic: {fileID: 0}
 --- !u!82 &4707620531101375035
 AudioSource:
   m_ObjectHideFlags: 0
