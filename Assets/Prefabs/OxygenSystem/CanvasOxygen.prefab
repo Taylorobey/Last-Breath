@@ -1557,6 +1557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8260767161745107275}
+  - component: {fileID: 6264029769518617301}
   m_Layer: 0
   m_Name: Gauge
   m_TagString: Untagged
@@ -1589,6 +1590,18 @@ RectTransform:
   m_AnchoredPosition: {x: 75, y: -75}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6264029769518617301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8260767161745107272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8260767161836019787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,7 +1931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5074195418824659374}
-  - component: {fileID: 8260767162226563549}
+  - component: {fileID: 4539151465571889452}
   m_Layer: 0
   m_Name: Display
   m_TagString: Untagged
@@ -1947,7 +1960,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 214.8}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8260767162226563549
+--- !u!114 &4539151465571889452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1956,10 +1969,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8260767162226563539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42fe02ef1d07908429646e60acce36b4, type: 3}
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oxytrack: 302
 --- !u!1 &8260767162306095155
 GameObject:
   m_ObjectHideFlags: 0
