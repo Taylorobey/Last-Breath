@@ -5,6 +5,7 @@ using UnityEngine;
 public class capturezone : MonoBehaviour
 {
     private GameObject enemy;
+    public GameObject particles;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class capturezone : MonoBehaviour
             Rigidbody2D otherrb;
             otherrb = other.GetComponent<Rigidbody2D>();
             enemy = GameObject.Find(other.name);
+            Instantiate(particles, enemy.transform.position, Quaternion.identity);
             Destroy(enemy);
         }
     }
