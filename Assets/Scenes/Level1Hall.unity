@@ -10399,6 +10399,7 @@ GameObject:
   - component: {fileID: 1141722459}
   - component: {fileID: 1141722458}
   - component: {fileID: 1141722457}
+  - component: {fileID: 1141722460}
   m_Layer: 5
   m_Name: Card_2
   m_TagString: Untagged
@@ -10476,6 +10477,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141722455}
   m_CullTransparentMesh: 0
+--- !u!114 &1141722460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141722455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1144384000
 GameObject:
   m_ObjectHideFlags: 0
@@ -10639,6 +10652,7 @@ GameObject:
   - component: {fileID: 1253252217}
   - component: {fileID: 1253252216}
   - component: {fileID: 1253252215}
+  - component: {fileID: 1253252218}
   m_Layer: 5
   m_Name: Card_3
   m_TagString: Untagged
@@ -10716,6 +10730,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253252213}
   m_CullTransparentMesh: 0
+--- !u!114 &1253252218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253252213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1324752220
 GameObject:
   m_ObjectHideFlags: 0
@@ -11371,6 +11397,7 @@ GameObject:
   - component: {fileID: 1573538451}
   - component: {fileID: 1573538450}
   - component: {fileID: 1573538449}
+  - component: {fileID: 1573538452}
   m_Layer: 5
   m_Name: Card_4
   m_TagString: Untagged
@@ -11448,6 +11475,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573538447}
   m_CullTransparentMesh: 0
+--- !u!114 &1573538452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573538447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1594161871
 GameObject:
   m_ObjectHideFlags: 0
@@ -11691,7 +11730,7 @@ RectTransform:
   - {fileID: 1253252214}
   - {fileID: 1573538448}
   m_Father: {fileID: 2090384481}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11716,6 +11755,7 @@ GameObject:
   - component: {fileID: 1798145180}
   - component: {fileID: 1798145179}
   - component: {fileID: 1798145178}
+  - component: {fileID: 1798145181}
   m_Layer: 5
   m_Name: Card_1
   m_TagString: Untagged
@@ -11793,6 +11833,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798145176}
   m_CullTransparentMesh: 0
+--- !u!114 &1798145181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798145176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f25d70d81bc5b47a42ccecd0401a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1821403264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12359,6 +12411,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074195418824659374, guid: 92490d218412931499c777540a4b64fa,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 611
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074195418824659374, guid: 92490d218412931499c777540a4b64fa,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -59
       objectReference: {fileID: 0}
     - target: {fileID: 7247861370103347266, guid: 92490d218412931499c777540a4b64fa,
         type: 3}
