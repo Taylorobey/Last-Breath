@@ -2452,7 +2452,7 @@ GameObject:
   - component: {fileID: 1370900070}
   - component: {fileID: 1370900069}
   m_Layer: 0
-  m_Name: door_Level1:1
+  m_Name: door_Level1Hall:1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4983,6 +4983,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7247861370103347267, guid: 92490d218412931499c777540a4b64fa,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247861370103347267, guid: 92490d218412931499c777540a4b64fa,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7247861368861665027, guid: 92490d218412931499c777540a4b64fa,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5014,16 +5024,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726554106484937323, guid: 92490d218412931499c777540a4b64fa,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7247861370103347267, guid: 92490d218412931499c777540a4b64fa,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7247861370103347267, guid: 92490d218412931499c777540a4b64fa,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
