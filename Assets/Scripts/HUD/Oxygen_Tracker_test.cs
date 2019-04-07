@@ -10,13 +10,17 @@ public class Oxygen_Tracker_test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (PersistentManagerScript.Instance.remainingtime != 500)
+        {
+            oxytrack = PersistentManagerScript.Instance.remainingtime;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        timepassed += Time.deltaTime*5;
+        timepassed += Time.deltaTime;
+        PersistentManagerScript.Instance.remainingtime = oxytrack;
         seconds = (int)timepassed;
 
         if (seconds>0){

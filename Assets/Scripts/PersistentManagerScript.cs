@@ -13,6 +13,7 @@ public class PersistentManagerScript : MonoBehaviour
     public int SpawnPoint = 0;
     public bool gun = false;
     public int direction = 0;
+    public int remainingtime = 500;
 
     private void Awake()
     {
