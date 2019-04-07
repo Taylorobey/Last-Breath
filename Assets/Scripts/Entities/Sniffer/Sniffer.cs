@@ -27,7 +27,12 @@ public class Sniffer : InteractableEntityBase
             }
         }
     }
-    
+
+    public override void OnPushed()
+    {
+        //do nothing
+    }
+
     private IEnumerator InvullForSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);

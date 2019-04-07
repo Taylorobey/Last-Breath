@@ -5,7 +5,6 @@ using UnityEngine;
 public class FollowPlayerBehavior : InteractableEntityBase
 {
     #region Variables
-    public Transform Player;
     public float WalkSpeed = 3f;
     private SpriteRenderer sp;
     private bool PInLOS;
@@ -16,14 +15,13 @@ public class FollowPlayerBehavior : InteractableEntityBase
     {
         PInLOS = false;
         sp = GetComponent<SpriteRenderer>();
-        player = GameObject.Find("Player");
         Physics2D.IgnoreCollision(Collider, PlayerCollider);
     }
 
     #region Methods
     void FixedUpdate()
     {
-        if (gameObject.transform.position.y < Player.position.y)
+        if (gameObject.transform.position.y < Player.transform.position.y)
         {
             transform.Translate(transform.up*(WalkSpeed/100));
         }
@@ -32,7 +30,7 @@ public class FollowPlayerBehavior : InteractableEntityBase
             transform.Translate(transform.up* -(WalkSpeed / 100));
         }
 
-        if(gameObject.transform.position.x < Player.position.x)
+        if(gameObject.transform.position.x < Player.transform.position.x)
         {
             transform.Translate(transform.right * (WalkSpeed / 100));
         }
@@ -44,6 +42,11 @@ public class FollowPlayerBehavior : InteractableEntityBase
     #endregion
 
     protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        //do nothing
+    }
+
+    public override void OnPushed()
     {
         //do nothing
     }

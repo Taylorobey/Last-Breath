@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  respawnTime: 30
+  respawnTime: 40
   myTank: {fileID: 2806898201537375656}
 --- !u!1 &3987301828585786978
 GameObject:
