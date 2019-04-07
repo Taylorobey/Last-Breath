@@ -193,5 +193,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  respawnTime: 15
+  respawnTime: 25
   myTank: {fileID: 1237726726947620475}
