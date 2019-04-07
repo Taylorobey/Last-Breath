@@ -31,7 +31,9 @@ public class Player_Controller : MonoBehaviour
     private int keysneeded; // Keys
     public int keys; // ------------------
 
+    private GameObject doorobject;
     private Animator animator;
+    private Animator dooranimator;
     Scene m_Scene;
     public GameObject force = null;
     public GameObject air = null;
@@ -231,7 +233,13 @@ public class Player_Controller : MonoBehaviour
             case "door":
                 overdoor = true;
                 doorsp = int.Parse(othername.Split(':')[1]);
+                doorobject = GameObject.Find(othername);
+                dooranimator = doorobject.GetComponent<Animator>();
                 doorlevel = otherprefab[1];
+                if (overdoor == true && keys >= keysneeded)
+                {
+                    dooranimator.SetBool("open", true);
+                }
                 break;
             case "key": // Key pickup
                 PersistentManagerScript.Instance.collectedkeys.Add(m_Scene.name + othername);
@@ -291,6 +299,7 @@ public class Player_Controller : MonoBehaviour
     private void Die()
     {
         WalkSpeed = 0;
+        Sprintspeed = 0;
     }
 
     private void OnDestroy()

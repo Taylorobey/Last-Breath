@@ -26,7 +26,9 @@ public class KeysScript : MonoBehaviour
         player = GameObject.Find("Player");
         pc = player.GetComponent<Player_Controller>();
         m_Scene = SceneManager.GetActiveScene();
-        for (int i = 0; i < PersistentManagerScript.Instance.collectedkeys.Count; i++) // Looks through all of the collected keys and checks if it is in this list. If it finds itself it deletes itself.
+        
+        // Looks through all of the collected keys and checks if it is in this list. If it finds itself it deletes itself.
+        for (int i = 0; i < PersistentManagerScript.Instance.collectedkeys.Count; i++) 
         {
             recieve = PersistentManagerScript.Instance.collectedkeys[i];
             if (recieve == (m_Scene.name + gameObject.name))
