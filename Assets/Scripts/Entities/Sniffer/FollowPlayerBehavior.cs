@@ -47,4 +47,9 @@ public class FollowPlayerBehavior : InteractableEntityBase
     {
         //do nothing
     }
+
+    public override void OnPushed()
+    {
+        //do nothing
+    }
 }

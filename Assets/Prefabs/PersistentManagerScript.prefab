@@ -49,4 +49,4 @@ MonoBehaviour:
   SpawnPoint: 0
   gun: 0
   direction: 0
-  FirstScene: {fileID: 102900000, guid: 8b4f82a631dccde47bb304cffe689a35, type: 3}
+  remainingtime: 500

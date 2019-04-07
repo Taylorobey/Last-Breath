@@ -93,11 +93,15 @@ public class Charger : InteractableEntityBase
 
     private void Update()
     {
+        if (Pushing)
+            return;
+        
         if (Charging)
             Charge();
         else
             Idle();
     }
+
 
     protected override void OnTriggerEnter2D(Collider2D other)
     {

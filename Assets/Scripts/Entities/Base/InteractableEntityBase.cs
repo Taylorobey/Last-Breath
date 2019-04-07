@@ -7,7 +7,9 @@ using UnityEngine.Experimental.PlayerLoop;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class InteractableEntityBase : MonoBehaviour
-{    
+{
+    private const int ForcePush = 400;
+    private const int ForceTorque = 400;
     //------------------------------------------------------------------------------------------------------------------
     //player reference
     protected Player_Controller Player { get; private set; }
@@ -18,6 +20,9 @@ public abstract class InteractableEntityBase : MonoBehaviour
     protected Rigidbody2D Rigidbody { get; private set; }
     protected SpriteRenderer SpriteRenderer { get; private set; }
     protected Animator Animator { get; private set; }
+    
+    public bool Pushing { get; set; }
+    
     
     //------------------------------------------------------------------------------------------------------------------
     
@@ -41,6 +46,21 @@ public abstract class InteractableEntityBase : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     protected abstract void OnTriggerEnter2D(Collider2D other);
+    
+    public virtual void OnPushed()
+    {
+        Pushing = true;
+        var delta = transform.position - Player.transform.position; 
+        Rigidbody.AddForce(delta * ForcePush);
+        Rigidbody.AddTorque(ForceTorque);
+        StartCoroutine(DestroyDelayed());
+    }
+    
+    private IEnumerator DestroyDelayed()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
+    }
 
     #endregion
 

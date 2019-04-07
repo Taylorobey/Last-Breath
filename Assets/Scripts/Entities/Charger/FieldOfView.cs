@@ -15,4 +15,9 @@ public class FieldOfView : InteractableEntityBase
             OnPlayerFound?.Invoke(Player.transform);
         }
     }
+    
+    public override void OnPushed()
+    {
+        //do nothing
+    }
 }

@@ -14,6 +14,11 @@ public class Hole : InteractableEntityBase
         }
     }
 
+    public override void OnPushed()
+    {
+        //do nothing
+    }
+
     //Player fell in a trap. He is sent to the garbage compressor.
     private void LoadExtraLevelHole()
     {

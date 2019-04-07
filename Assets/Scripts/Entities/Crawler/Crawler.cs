@@ -23,6 +23,7 @@ public class Crawler : InteractableEntityBase
     
     
     private float speed = 0;
+    [SerializeField] [Range(100, 1000)]private float forcePush;
     private int TargetIndex { get; set; }
     private float RestTime { get; set; }
     
@@ -43,6 +44,9 @@ public class Crawler : InteractableEntityBase
 
     private void Update()
     {
+        if(Pushing)
+            return;
+        
         Move();
     }
 
@@ -58,6 +62,7 @@ public class Crawler : InteractableEntityBase
                 StartCoroutine(InvullForSeconds(1));
             }
         }
+        
     }
 
     private IEnumerator InvullForSeconds(float seconds)
@@ -69,6 +74,9 @@ public class Crawler : InteractableEntityBase
     //Called by the animator to check the moved distance
     public void MoveAhead()
     {
+        if (Pushing)
+            return;
+        
         var delta = (transform.position - points[TargetIndex].position);
         var distX = Mathf.Abs(delta.x);
         var distY = Mathf.Abs(delta.y);

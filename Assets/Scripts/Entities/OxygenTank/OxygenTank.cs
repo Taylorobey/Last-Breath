@@ -47,4 +47,9 @@ public class OxygenTank : InteractableEntityBase
             RespawnRoutine = null;
         }
     }
+    
+    public override void OnPushed()
+    {
+        //do nothing
+    }
 }
