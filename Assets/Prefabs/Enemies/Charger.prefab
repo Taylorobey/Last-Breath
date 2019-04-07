@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 3252326696919817795}
   - component: {fileID: 3940520091849110293}
   m_Layer: 0
-  m_Name: ChargerPrefab
+  m_Name: Charger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f206ff6c489c27141836818779e3907c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargerDamage: 20
+  chargerDamage: 50
   chargeSpeed: 14
   Points:
   - {fileID: 0}
