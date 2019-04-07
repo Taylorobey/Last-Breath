@@ -33,6 +33,11 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     public static Action<float> OnConsumeOxygen = (percent) => { };
     
     /// <summary>
+    ///  Dispatched when oxygen is consumed every 
+    /// </summary>
+    public static Action<int> OnConsumeOxygenInSeconds = (current) => { };
+    
+    /// <summary>
     ///     Dispatched when tanks are empty. 
     /// </summary>
     public static Action OnEmptyTanks = () => { };
@@ -114,7 +119,10 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
         if (CurrentTime <= 0)
             Die();
         else
-            OnConsumeOxygen?.Invoke((float)CurrentTime/(float)MaxTime);
+        {
+            OnConsumeOxygen?.Invoke((float) CurrentTime / (float) MaxTime);
+            OnConsumeOxygenInSeconds?.Invoke((int)CurrentTime);
+        }
     }
 
     private void CheckInput()
