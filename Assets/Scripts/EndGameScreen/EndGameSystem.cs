@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class EndGameSystem : MonoBehaviour
 {
    [SerializeField] private Button buttonContinue;
-   [SerializeField] private Object firstLevel;
    
    private void Start()
    {
@@ -16,6 +15,6 @@ public class EndGameSystem : MonoBehaviour
 
    private void OnPressContinue()
    {
-      SceneManager.LoadScene(firstLevel.name);
+      SceneManager.LoadScene("Level0Start");
    }
 }

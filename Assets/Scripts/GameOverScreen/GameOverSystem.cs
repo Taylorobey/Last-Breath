@@ -40,8 +40,6 @@ public class GameOverSystem : MonoBehaviour
     
     [SerializeField] private GameObject content;
     [SerializeField] private Button buttonPlayAgain;
-    [SerializeField] [Tooltip("First Scene of the Game. It is loaded when Play Again Button is pressed.")]
-    private Object firstScene;
 
     #endregion
 
@@ -57,8 +55,7 @@ public class GameOverSystem : MonoBehaviour
         HideGameOverScreen();
         
         //switch game to first scene
-        var firstSceneName = firstScene.name;
-        SceneManager.LoadScene(firstSceneName);
+        SceneManager.LoadScene("Level0Start");
     }
     
     [Button]

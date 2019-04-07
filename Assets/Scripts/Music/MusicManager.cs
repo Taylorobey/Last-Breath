@@ -28,13 +28,4 @@ public class MusicManager : SingletonMB<MusicManager>
         MyAudioSource.clip = levelMusic;
         MyAudioSource.Play();
     }
-
-    public void PlayMusicMenu()
-    {
-        if (MyAudioSource.clip == menuMusic)
-            return;
-        
-        MyAudioSource.clip = menuMusic;
-        MyAudioSource.Play();
-    }
 }
