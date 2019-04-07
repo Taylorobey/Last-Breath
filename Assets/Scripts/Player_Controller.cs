@@ -165,6 +165,14 @@ public class Player_Controller : MonoBehaviour
         {
             fouraxisdir = 2;
         }
+        if (moveInput.y < 0) // Looking down
+        {
+            fouraxisdir = 3;
+        }
+        if (moveInput.y > 0) // Looking up
+        {
+            fouraxisdir = 4;
+        }
 
         animator.SetBool("Direction", frontback);
         animator.SetFloat("Speed", ((Mathf.Abs(moveInput.x) + Mathf.Abs(moveInput.y))/2));
@@ -271,19 +279,27 @@ public class Player_Controller : MonoBehaviour
     void FireGun()
     {
         if (PersistentManagerScript.Instance.gun == true)
+        {       
+            PersistentManagerScript.Instance.direction = fouraxisdir;
+            var position = transform.position + GetOffset();
+            Instantiate(force, position, Quaternion.identity);
+            Instantiate(air, position, Quaternion.identity);
+        }
+    }
+
+    Vector3 GetOffset()
+    {
+        var offset = 2.5f;
+        switch (fouraxisdir)
         {
-            if (fouraxisdir == 1) // Looking up
-            {
-                Instantiate(force, transform.position + (transform.right * 2.5f), Quaternion.identity);
-                Instantiate(air, transform.position + (transform.right * 2.5f), Quaternion.identity);
-                PersistentManagerScript.Instance.direction = fouraxisdir;
-            }
-            if (fouraxisdir == 2) // Looking up
-            {
-                PersistentManagerScript.Instance.direction = fouraxisdir;
-                Instantiate(air, transform.position + (transform.right * -2.5f), Quaternion.identity);
-                Instantiate(force, transform.position + (transform.right * -2.5f), Quaternion.identity);
-            }
+            case 1:
+                return transform.right * offset; 
+            case 2:
+                return transform.right * -offset;
+            case 3:
+                return transform.up * -offset;
+            case 4: return transform.up * offset;
+            default: return transform.right * offset; 
         }
     }
 
