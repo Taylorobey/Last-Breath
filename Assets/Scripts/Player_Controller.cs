@@ -48,6 +48,7 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        PersistentManagerScript.Instance.currentkeys = 0;
         //subscribe death trigger
         OxygenSystem.OnDie += Die;
         
@@ -69,8 +70,9 @@ public class Player_Controller : MonoBehaviour
         }
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
+        PersistentManagerScript.Instance.currentkeysneeded = keysneeded;
 
-        if(PersistentManagerScript.Instance.SpawnPoint != 0)
+        if (PersistentManagerScript.Instance.SpawnPoint != 0)
         {
             GameObject[] spawnpoints;
             spawnpoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
@@ -165,15 +167,14 @@ public class Player_Controller : MonoBehaviour
         {
             fouraxisdir = 2;
         }
-        if (moveInput.y < 0) // Looking down
-        {
-            fouraxisdir = 3;
-        }
-        if (moveInput.y > 0) // Looking up
-        {
-            fouraxisdir = 4;
-        }
-
+        //if (moveInput.y < 0) // Looking down
+        //{
+        //    fouraxisdir = 3;
+        //}
+        //if (moveInput.y > 0) // Looking up
+        //{
+        //    fouraxisdir = 4;
+        //}
         animator.SetBool("Direction", frontback);
         animator.SetFloat("Speed", ((Mathf.Abs(moveInput.x) + Mathf.Abs(moveInput.y))/2));
         animator.SetBool("gun", PersistentManagerScript.Instance.gun);
@@ -250,6 +251,7 @@ public class Player_Controller : MonoBehaviour
                 }
                 break;
             case "key": // Key pickup
+                PersistentManagerScript.Instance.AddKey();
                 PersistentManagerScript.Instance.collectedkeys.Add(m_Scene.name + othername);
                 keyobj = GameObject.Find(othername);
                 keys++;
@@ -279,9 +281,32 @@ public class Player_Controller : MonoBehaviour
     void FireGun()
     {
         if (PersistentManagerScript.Instance.gun == true)
-        {       
+        {
+            Vector3 position;
+            var offset = 2.5f;
             PersistentManagerScript.Instance.direction = fouraxisdir;
-            var position = transform.position + GetOffset();
+            if (Direction == false)
+            {
+                if (frontback == true)
+                {
+                    position = transform.position + (transform.right * offset);
+                }
+                else
+                {
+                    position = transform.position + (transform.right * -offset);
+                }
+            }
+            else
+            {
+                if (frontback == true)
+                {
+                    position = transform.position + (transform.right * -offset);
+                }
+                else
+                {
+                    position = transform.position + (transform.right * offset);
+                }
+            }
             Instantiate(force, position, Quaternion.identity);
             Instantiate(air, position, Quaternion.identity);
         }
@@ -296,9 +321,9 @@ public class Player_Controller : MonoBehaviour
                 return transform.right * offset; 
             case 2:
                 return transform.right * -offset;
-            case 3:
-                return transform.up * -offset;
-            case 4: return transform.up * offset;
+            //case 3:
+            //    return transform.up * -offset;
+            //case 4: return transform.up * offset;
             default: return transform.right * offset; 
         }
     }

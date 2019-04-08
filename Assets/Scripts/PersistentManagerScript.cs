@@ -14,6 +14,8 @@ public class PersistentManagerScript : MonoBehaviour
     public bool gun = false;
     public int direction = 0;
     public int remainingtime = 500;
+    public int currentkeys = 0;
+    public int currentkeysneeded = 0;
 
     private void Awake()
     {
@@ -33,6 +35,10 @@ public class PersistentManagerScript : MonoBehaviour
         }
     }
 
+    public void AddKey()
+    {
+        currentkeys += 1;
+    }
     /// <summary>
     ///     It happens when the player dies.
     /// </summary>

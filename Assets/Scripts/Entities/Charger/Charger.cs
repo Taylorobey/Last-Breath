@@ -81,7 +81,7 @@ public class Charger : InteractableEntityBase
         CanDoDamage = true;
         CachedScale = transform.localScale.x;
         fieldOfView.OnPlayerFound += OnPlayerFound;
-
+        Flip();
         IdleDirection = GetIdleDirection();
     }
 
