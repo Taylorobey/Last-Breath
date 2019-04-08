@@ -22,6 +22,6 @@ public class Hole : InteractableEntityBase
     //Player fell in a trap. He is sent to the garbage compressor.
     private void LoadExtraLevelHole()
     {
-        SceneManager.LoadScene(extraLevelHole.name);
+        Application.LoadLevel(extraLevelHole.name);
     }
 }

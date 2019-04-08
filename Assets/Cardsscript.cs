@@ -14,23 +14,15 @@ public class Cardsscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        totalkeys = PersistentManagerScript.Instance.currentkeysneeded;
         Invoke("KeyCheck", 0.05f);
     }
 
     void KeyCheck()
     {
-        if(totalkeys < index)
+        totalkeys = PersistentManagerScript.Instance.currentkeysneeded;
+        if (index > totalkeys)
         {
-            self.enabled = false;
-        }
-        if(keys < index)
-        {
-            
-        }
-        else
-        {
-            self.enabled = false;
+           self.enabled = false;
         }
     }
 
@@ -38,6 +30,9 @@ public class Cardsscript : MonoBehaviour
     void Update()
     {
         keys = PersistentManagerScript.Instance.currentkeys;
-        KeyCheck();
+        if (keys >= index)
+        {
+            self.enabled = false;
+        }
     }
 }

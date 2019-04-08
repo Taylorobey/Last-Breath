@@ -15,6 +15,13 @@ public class EndGameSystem : MonoBehaviour
 
    private void OnPressContinue()
    {
+      PersistentManagerScript.Instance.OxygenTanks = 2;
+        PersistentManagerScript.Instance.CurrentTime = 0f;
+        PersistentManagerScript.Instance.SpawnPoint = 0;
+        PersistentManagerScript.Instance.gun = false;
+        PersistentManagerScript.Instance.remainingtime = 300;
+        PersistentManagerScript.Instance.currentkeys = 0;
+        PersistentManagerScript.Instance.currentkeysneeded = 0;
       SceneManager.LoadScene("Level0Start");
    }
 }

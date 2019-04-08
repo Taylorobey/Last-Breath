@@ -54,6 +54,10 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     #region Fields and Properties
     
     public static bool IsInitialized { get; private set; }
+    public AudioClip useoxygentank = null;
+    public AudioClip collectoxygentank = null;
+    public AudioClip monstergrowl = null;
+    public AudioClip hit = null;
     
     [Header("Configurations")]
     [SerializeField] [Range(60, 300)] [Tooltip("Maximum Time")] 
@@ -72,9 +76,12 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     private KeyCode keyInputConsumeTank = KeyCode.Space;
 
     private int OxygenTanks { get; set; }
-    private float CurrentTime { get; set; } 
-    
+    private float CurrentTime { get; set; }
+
+    private Player_Controller pcscript;
     private bool IsDead { get; set; }
+    private GameObject player;
+    private AudioSource audiosource = null;
 
     #endregion
     
@@ -84,6 +91,10 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
     private void Start()
     {
+
+        player = GameObject.Find("Player");
+        pcscript = player.GetComponent<Player_Controller>();
+
         if (!IsInitialized)
            Restart();
         else
@@ -94,6 +105,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
         }
         
         OnAddTank?.Invoke(OxygenTanks);
+        audiosource = player.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -135,7 +147,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
         // Shoot air cannon
         if (Input.GetKeyDown("joystick button 0") == true && PersistentManagerScript.Instance.gun == true)
-        { CurrentTime -= 5; }
+        { CurrentTime -= 5;
+        }
         if (Input.GetKeyDown("f") && PersistentManagerScript.Instance.gun == true)
         { CurrentTime -= 5; }
     }
@@ -158,6 +171,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
             OnEmptyTanks?.Invoke();
         else 
         {
+            PersistentManagerScript.Instance.PlayAudio(useoxygentank);
             CurrentTime += timeBoostOxygenTank;
             OxygenTanks--;
             OnConsumeOxygenTank?.Invoke(OxygenTanks);
@@ -168,7 +182,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     public void AddTank(OxygenTankType type)
     {
         OxygenTanks += (int) type;
-        
+        PersistentManagerScript.Instance.PlayAudio(collectoxygentank);
         //not over loot
         if (OxygenTanks > maxOxygenTanks)
             OxygenTanks = maxOxygenTanks;
@@ -192,13 +206,29 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     public void RemoveTime(int time = 10)
     {
         CurrentTime -= time;
+        PersistentManagerScript.Instance.PlayAudio(monstergrowl);
+        PersistentManagerScript.Instance.PlayAudio(hit);
+        StartCoroutine(Damage());
         OnTakeDamage?.Invoke(time);
     }
-
-    /// <summary>
-    ///     Assign the fields the starting values.
-    /// </summary>
-    private void Restart()
+    private IEnumerator Damage()
+    {
+        if (IsDead == false)
+        {
+            pcscript.WalkSpeed = 3f;
+            pcscript.Sprintspeed = 3f;
+            yield return new WaitForSeconds(0.35f);
+            if (IsDead == false)
+            {
+                pcscript.WalkSpeed = 5f;
+                pcscript.Sprintspeed = 6.75f;
+            }
+        }
+    }
+        /// <summary>
+        ///     Assign the fields the starting values.
+        /// </summary>
+        private void Restart()
     {
         //assign the starting amount of tanks for the first time
         OxygenTanks = startOxygenTanks;

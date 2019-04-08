@@ -251,6 +251,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDontDestroyOnLoad: 0
   isSilent: 1
+  useoxygentank: {fileID: 8300000, guid: 7f524de1c5170b14e8c0f4901c77c034, type: 3}
+  collectoxygentank: {fileID: 8300000, guid: ca0a56601d23c794194b9deea8d3fc26, type: 3}
+  monstergrowl: {fileID: 8300000, guid: aaa71b55168403b4292a67b01a989434, type: 3}
+  hit: {fileID: 8300000, guid: 3c29e775ac007c243b0b527d7f57bb87, type: 3}
   MaxTime: 300
   startOxygenTanks: 2
   maxOxygenTanks: 5

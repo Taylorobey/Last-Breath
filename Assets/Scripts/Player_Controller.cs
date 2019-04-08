@@ -10,8 +10,8 @@ public class Player_Controller : MonoBehaviour
 
     #region Fields and Properties
     // --------- Movement -----------------
-    float WalkSpeed; // Player walk speed
-    float Sprintspeed;
+    public float WalkSpeed; // Player walk speed
+    public float Sprintspeed;
     private bool Direction;
     float deadzone = 0.25f; // Controller dead zone
     private bool sprinting;
@@ -30,6 +30,13 @@ public class Player_Controller : MonoBehaviour
     private GameObject keyobj; // --------
     private int keysneeded; // Keys
     public int keys; // ------------------
+    public AudioClip closedoor;
+    public AudioClip step1;
+    public AudioClip step2;
+    public AudioClip step3;
+    public AudioClip collectkey;
+    public AudioClip shoot;
+    private bool canstepsound;
 
     private GameObject doorobject;
     private Animator animator;
@@ -48,6 +55,7 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        canstepsound = true;
         PersistentManagerScript.Instance.currentkeys = 0;
         //subscribe death trigger
         OxygenSystem.OnDie += Die;
@@ -96,6 +104,10 @@ public class Player_Controller : MonoBehaviour
         #region Input
         moveInput.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        if(Mathf.Abs(moveInput.x) > 0 || Mathf.Abs(moveInput.y) > 0)
+        {
+            StartCoroutine(StepSound());
+        }
         // Interact ---
         if (Input.GetKeyDown("joystick button 2"))
         {
@@ -180,7 +192,19 @@ public class Player_Controller : MonoBehaviour
         animator.SetBool("gun", PersistentManagerScript.Instance.gun);
         directioncheck(moveInput);
     }
+    private IEnumerator StepSound()
+    {
+        if (canstepsound == true)
+        {
+            canstepsound = false;
 
+            gameObject.GetComponent<AudioSource>().clip = step3;
+
+            gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip);
+            yield return new WaitForSeconds(0.35f);
+            canstepsound = true;
+        }
+    }
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
@@ -252,7 +276,7 @@ public class Player_Controller : MonoBehaviour
                 break;
             case "key": // Key pickup
                 PersistentManagerScript.Instance.AddKey();
-                PersistentManagerScript.Instance.collectedkeys.Add(m_Scene.name + othername);
+                PersistentManagerScript.Instance.PlayAudio(collectkey);
                 keyobj = GameObject.Find(othername);
                 keys++;
                 Destroy(keyobj);
@@ -282,6 +306,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (PersistentManagerScript.Instance.gun == true)
         {
+            PersistentManagerScript.Instance.PlayAudio(shoot);
             Vector3 position;
             var offset = 2.5f;
             PersistentManagerScript.Instance.direction = fouraxisdir;
@@ -332,9 +357,18 @@ public class Player_Controller : MonoBehaviour
     {
         if (overdoor == true && keys >= keysneeded)
         {
-            PersistentManagerScript.Instance.SpawnPoint = doorsp;
-            Application.LoadLevel(doorlevel);
+            PersistentManagerScript.Instance.fadingout = true;
+            PersistentManagerScript.Instance.PlayAudio(closedoor);
+            StartCoroutine(LoadLevel());
         }
+    }
+
+    IEnumerator LoadLevel()
+    {
+        yield return new WaitForSeconds(1);
+        PersistentManagerScript.Instance.SpawnPoint = doorsp;
+        PersistentManagerScript.Instance.fadingout = false;
+        Application.LoadLevel(doorlevel);
     }
     
     private void Die()

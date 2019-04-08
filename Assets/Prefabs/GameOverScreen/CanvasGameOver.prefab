@@ -325,7 +325,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 15
   m_TargetDisplay: 0
 --- !u!114 &686798656611766395
 MonoBehaviour:
@@ -392,7 +392,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 1505539942608144690}
   buttonPlayAgain: {fileID: 8080010023959439506}
-  firstScene: {fileID: 102900000, guid: f41f494bf1217f34697872e7c30bad16, type: 3}
 --- !u!1 &7715850528646826101
 GameObject:
   m_ObjectHideFlags: 0
