@@ -110,6 +110,11 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
 
     private void Update()
     {
+        if (IsDead == true)
+        {
+            pcscript.WalkSpeed = 0f;
+            pcscript.Sprintspeed = 0f;
+        }
         CountTime();
         CheckInput();
         PersistentManagerScript.Instance.OxygenTanks = OxygenTanks;
@@ -159,6 +164,8 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
             return;
         CurrentTime = -1;
         IsDead = true;
+        pcscript.WalkSpeed = 0f;
+        pcscript.Sprintspeed = 0f;
         OnConsumeOxygen?.Invoke(0);
         OnDie?.Invoke();
         Restart();
@@ -215,6 +222,7 @@ public class OxygenSystem : SingletonMB<OxygenSystem>
     {
         if (IsDead == false)
         {
+            Debug.Log(IsDead);
             pcscript.WalkSpeed = 3f;
             pcscript.Sprintspeed = 3f;
             yield return new WaitForSeconds(0.35f);

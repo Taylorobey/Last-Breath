@@ -37,6 +37,7 @@ public class Player_Controller : MonoBehaviour
     public AudioClip collectkey;
     public AudioClip shoot;
     private bool canstepsound;
+    private bool canopendoor;
 
     private GameObject doorobject;
     private Animator animator;
@@ -55,6 +56,7 @@ public class Player_Controller : MonoBehaviour
 
     void Start()
     {
+        canopendoor = true;
         canstepsound = true;
         PersistentManagerScript.Instance.currentkeys = 0;
         //subscribe death trigger
@@ -357,9 +359,13 @@ public class Player_Controller : MonoBehaviour
     {
         if (overdoor == true && keys >= keysneeded)
         {
-            PersistentManagerScript.Instance.fadingout = true;
-            PersistentManagerScript.Instance.PlayAudio(closedoor);
-            StartCoroutine(LoadLevel());
+            if (canopendoor == true)
+            {
+                canopendoor = false;
+                PersistentManagerScript.Instance.fadingout = true;
+                PersistentManagerScript.Instance.PlayAudio(closedoor);
+                StartCoroutine(LoadLevel());
+            }
         }
     }
 
